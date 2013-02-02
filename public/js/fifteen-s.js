@@ -9,7 +9,11 @@
     var session = TB.initSession(sessionId);
 
     session.addEventListener('sessionConnected', function (event) {
-        console.log('Hello world. I am connected to OpenTok :).');
+      // Put my webcam in a div
+      var publishProps = {height:240, width:320};
+      publisher = TB.initPublisher(apiKey, 'famebox', publishProps);
+      // Send my stream to the session
+      session.publish(publisher);
     });
 
     session.connect(apiKey, token);
