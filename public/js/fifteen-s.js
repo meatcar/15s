@@ -6,6 +6,8 @@
  *
  */
 $.domReady(function () {
+    var socket = io.connect('http://localhost:3000');
+
     var apiKey = '22769732',
         sessionId = '1_MX4yMTgwNTk0Mn5-U2F0IEZlYiAwMiAwNzo1NjoyMiBQU1QgMjAxM34wLjE2NzgzNDY0fg',
         token = 'T1==cGFydG5lcl9pZD0yMjc2OTczMiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz0zOTE4YzE3YzkyOTg2ZWI4N2YyNGI2NWViNGI5YWI1MDgyYTk0YmI3OnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9Ml9NWDR5TWpjMk9UY3pNbjR4TWpjdU1DNHdMakYtVTJGMElFWmxZaUF3TWlBeE1qbzFNam94TWlCUVUxUWdNakF4TTM0d0xqQTBPRFkxTWpVemZnJmNyZWF0ZV90aW1lPTEzNTk4MzgzOTEmbm9uY2U9MC4wMTY3MDIxMDczNDk3MDc3ODQmZXhwaXJlX3RpbWU9MTM2MDQ0MzE5MSZjb25uZWN0aW9uX2RhdGE9',
@@ -44,7 +46,6 @@ $.domReady(function () {
     }
     session.connect(apiKey, token);
 
-    var socket = io.connect('http://localhost:3000');
 
     socket.on('fame', function (data) {
       var streamId = data.stream_id;
