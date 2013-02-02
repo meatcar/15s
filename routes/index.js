@@ -1,4 +1,5 @@
-var OpenTok = require('opentok');
+var OpenTok = require('opentok'),
+  auth = null;
 
 /*
  * GET home page.
@@ -14,14 +15,21 @@ exports.auth = function(req, res){
     opentok = new OpenTok.OpenTokSDK(key, secret),
     session, token;
 
+  // Check if we dont have an already made session.
+  if (auth !== null) {
+    res.json(auth);
+    return;
+  }
+
   opentok.createSession('localhost', function(result) {
     session = result;
 
     token = opentok.generateToken({
-      session_id: session_id,
+      session_id: session,
       role: OpenTok.RoleConstants.MODERATOR
     });
 
-    res.send({token: token, sessionId: session});
+    auth = {token: token, sessionId: session};
+    res.json(auth);
   });
 };
