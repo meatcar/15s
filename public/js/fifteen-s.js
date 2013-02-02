@@ -1,26 +1,36 @@
 (function () {
     var apiKey = '22769732',
-        sessionId = '1_MX4yMTgwNTk0Mn5-U2F0IEZlYiAwMiAwNzo1NjoyMiBQU1QgMjAxM34wLjE2NzgzNDY0fg',
-        token = 'T1==cGFydG5lcl9pZD0yMTgwNTk0MiZzaWc9NTg5MDU2MjhhZGVlZjA3MjM2MTVhYWQ0M2EzYTc5Y2FjZTg2ZjljOTpzZXNzaW9uX2lkPTFfTVg0eU1UZ3dOVGswTW41LVUyRjBJRVpsWWlBd01pQXdOem8xTmpveU1pQlFVMVFnTWpBeE0zNHdMakUyTnpnek5EWTBmZyZjcmVhdGVfdGltZT0xMzU5ODIwNTgyJmV4cGlyZV90aW1lPTEzNTk5MDY5ODImcm9sZT1wdWJsaXNoZXImbm9uY2U9NDE4OTcx',
+        sessionId = '1_MX4yMjc2OTczMn4xMjcuMC4wLjF-U2F0IEZlYiAwMiAxMzoxNTo0NCBQU1QgMjAxM34wLjY4NzQzMzJ-',
+        token = 'T1==cGFydG5lcl9pZD0yMjc2OTczMiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz0yMTAyZjlmN2FkOTI0NjJiNjQwYmE4MmQzNzUyNTkzZWE4MDRmZmIzOnJvbGU9bW9kZXJhdG9yJnNlc3Npb25faWQ9MV9NWDR5TWpjMk9UY3pNbjR4TWpjdU1DNHdMakYtVTJGMElFWmxZaUF3TWlBeE16b3hOVG8wTkNCUVUxUWdNakF4TTM0d0xqWTROelF6TXpKLSZjcmVhdGVfdGltZT0xMzU5ODM5NzU0Jm5vbmNlPTAuNzY1NTQ3OTEzMDYxOTkzOCZleHBpcmVfdGltZT0xMzYwNDQ0NTU0JmNvbm5lY3Rpb25fZGF0YT0=',
         TB = window.TB;
 
     TB.setLogLevel(TB.DEBUG); // Set this for helpful debugging messages in console
 
+    var archive;
     var session = TB.initSession(sessionId);
 
     session.addEventListener('sessionConnected', function (event) {
     });
-    var session = TB.initSession(sessionId);
+
+    var archiveTitle = "Archive " + new Date().getTime();
+    
     session.addEventListener('sessionConnected', sessionConnectedHandler);
     session.addEventListener('streamCreated', streamCreatedHandler);
     session.connect(apiKey, token);
 
     var publisher;
 
+    function archiveCreateHandler(event) {
+        archive = event.archives[0];
+    }
+
     function sessionConnectedHandler(event) {
       var publishProps = {height:240, width:320};
 
       publisher = TB.initPublisher(apiKey, 'preview', publishProps);
+      session.addEventListener("archiveCreated", archiveCreateHandler);
+      session.createArchive(apiKey, "perStream", archiveTitle);
+      console.log(event);
       // Send my stream to the session
       session.publish(publisher);
 
