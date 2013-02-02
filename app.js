@@ -5,6 +5,7 @@
 
 var express = require('express')
   , routes = require('./routes')
+  , sockets = require('./sockets')
   , http = require('http')
   , hbs = require('express3-handlebars')
   , path = require('path');
@@ -16,7 +17,7 @@ app.engine('html', hbs({
   extname: '.html'
 }));
 
-app.configure(function(){
+app.configure(function() {
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'html');
@@ -34,7 +35,11 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
+app.get('/auth', routes.auth);
 
-http.createServer(app).listen(app.get('port'), function(){
+var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
+
+// set up socket.io
+sockets.start(server);
