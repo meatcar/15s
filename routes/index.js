@@ -29,7 +29,7 @@ exports.auth = function(req, res){
       role: OpenTok.RoleConstants.MODERATOR
     });
 
-    auth = {token: token, sessionId: session};
+    auth = {token: token, sessionId: session, key: key};
     res.json(auth);
   });
 };
