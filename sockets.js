@@ -41,6 +41,10 @@ exports.start = function (server) {
     var index = getRandomArbitary(0, users.length - 1),
       id = users[index],
       socket = streams[id];
+
+    socket.emit('prepare', {
+      uid: id
+    });
     //   old_socket = streams[currentUid];
 
     // // tell old user to give up fame.
@@ -48,11 +52,21 @@ exports.start = function (server) {
     //   old_socket.emit('fameoff');
     // }
 
+
+
     // tell new user to start being famous.
+    timing(id, socket);
+  }
+
+  function postpick (id, socket){
     socket.emit('fameon', {
       uid: id
     });
     currentUid = id;
+  }
+
+  function timing (id, socket){
+    setTimeout(function(){postpick(id, socket)}, 5000)
   }
 
   // Returns a uniformly random number between min and max

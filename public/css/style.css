@@ -18,8 +18,15 @@ a {
 #container {	
 	margin: 0px auto;
 	padding: 0px;
-	background: url('newspotlight.png');
 	background-repeat: repeat-y;
+}
+
+.famous_on {
+	background: url('redspotlight.png');
+}
+
+.famous_off {
+	background: url('newspotlight.png');
 }
 
 #header {

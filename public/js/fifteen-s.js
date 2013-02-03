@@ -49,7 +49,7 @@ var FifteenS = (function () {
 
       /* prepare to be famous */
       this.socket.on('prepare', function (data) {
-        //TODO do flashy shit
+        document.getElementById("container").className="famous_on";
       }.bind(this));
 
       /* be famous */
