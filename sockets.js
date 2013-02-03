@@ -37,6 +37,9 @@ exports.start = function (server) {
       if (idx !== -1) { // uid in array.
         users.splice(idx, 1);
       }
+      // update on num of users
+      socket.broadcast.emit('number', {n: users.length});
+      socket.emit('number', {n: users.length});
     });
   });
 
