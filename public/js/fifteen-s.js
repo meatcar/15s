@@ -45,7 +45,7 @@ var FifteenS = (function () {
     this.connected = function (event) {
       console.log("connected");
 
-      this.socket = io.connect('http://fifteen-s.herokuapp.com');
+      this.socket = io.connect('');
 
       /* prepare to be famous */
       this.socket.on('prepare', function (data) {

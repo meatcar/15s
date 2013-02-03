@@ -15,6 +15,7 @@ exports.start = function (server) {
     streams[uid] = socket;
 
     if (users.length === 1) {
+      currentUid = uid;
       pick();
     }
 
@@ -30,43 +31,38 @@ exports.start = function (server) {
   });
 
   // Wait 15s before famousing a stream
-  setInterval(pick, 20000);
+  setInterval(prepare, 15000);
+  setTimeout(function () {
+    setInterval(pick, 15000);
+  }, 5000);
 
   // Pick a stream at random, and tell it to be famous.
-  function pick() {
+  function prepare() {
     // skip if only one user or less.
     if (users.length <= 0) {
-      return;
+      return false;
     }
     var index = getRandomArbitary(0, users.length - 1),
-      id = users[index],
-      socket = streams[id];
+      id = users[index];
+
+    currentUid = id;
 
     socket.emit('prepare', {
       uid: id
     });
-    //   old_socket = streams[currentUid];
-
-    // // tell old user to give up fame.
-    // if (typeof old_socket !== 'undefined') {
-    //   old_socket.emit('fameoff');
-    // }
-
-
-
-    // tell new user to start being famous.
-    timing(id, socket);
   }
 
-  function postpick (id, socket){
+  function pick(){
+    var socket = streams[currentUid];
+    if (!socket) {
+      // if a user quit in the last 5 seconds, and none are left, quit.
+      if (!pick()) {
+        return
+      }
+    }
     socket.emit('fameon', {
-      uid: id
+      uid: currentUid
     });
-    currentUid = id;
-  }
-
-  function timing (id, socket){
-    setTimeout(function(){postpick(id, socket)}, 5000)
   }
 
   // Returns a uniformly random number between min and max
