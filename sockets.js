@@ -30,7 +30,7 @@ exports.start = function (server) {
   });
 
   // Wait 15s before famousing a stream
-  setInterval(pick, 15000);
+  setInterval(pick, 20000);
 
   // Pick a stream at random, and tell it to be famous.
   function pick() {
