@@ -40,13 +40,13 @@ exports.start = function (server) {
     }
     var index = getRandomArbitary(0, users.length - 1),
       id = users[index],
-      socket = streams[id],
-      old_socket = streams[currentUid];
+      socket = streams[id];
+    //   old_socket = streams[currentUid];
 
-    // tell old user to give up fame.
-    if (typeof old_socket !== 'undefined') {
-      old_socket.emit('fameoff');
-    }
+    // // tell old user to give up fame.
+    // if (typeof old_socket !== 'undefined') {
+    //   old_socket.emit('fameoff');
+    // }
 
     // tell new user to start being famous.
     socket.emit('fameon', {
