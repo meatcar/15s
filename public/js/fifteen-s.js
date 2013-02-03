@@ -67,6 +67,10 @@ var FifteenS = (function () {
         console.log('fameoff');
         this.unpublish();
       }.bind(this));
+
+      this.socket.on('number', function (data) {
+        $('.num').text(data.n);
+      }.bind(this));
     }
 
     /**

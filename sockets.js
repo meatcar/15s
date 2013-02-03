@@ -25,6 +25,8 @@ exports.start = function (server) {
       pick();
     }
 
+    socket.broadcast('number', {n: users.length});
+
     socket.on('disconnect', function () {
       console.log('disconnecting');
       // Clean up uid and socket storage.
