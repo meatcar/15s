@@ -43,7 +43,8 @@ exports.start = function (server) {
       return false;
     }
     var index = getRandomArbitary(0, users.length - 1),
-      id = users[index];
+      id = users[index],
+      socket = streams[id];
 
     currentUid = id;
 
