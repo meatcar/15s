@@ -25,7 +25,7 @@ exports.start = function (server) {
       pick();
     }
 
-    socket.broadcast('number', {n: users.length});
+    socket.broadcast.emit('number', {n: users.length});
 
     socket.on('disconnect', function () {
       console.log('disconnecting');
