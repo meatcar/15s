@@ -25,6 +25,7 @@ function main (auth) {
     sessionId = auth.sessionId,
     token = auth.token;
   var archive;
+  var archiveTitle = "Archive " + new Date().getTime();
 
   TB.setLogLevel(TB.DEBUG); // Set this for helpful debugging messages in console
 
