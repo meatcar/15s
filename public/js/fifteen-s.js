@@ -41,7 +41,7 @@ function main (auth) {
     }
 
   function sessionConnectedHandler(event) {
-    var publishProps = {height:240, width:320};
+    var publishProps = {height:600, width:800};
 
     publisher = TB.initPublisher(apiKey, 'preview', publishProps);
     console.log(event);

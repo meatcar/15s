@@ -2,44 +2,67 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background: #F0F2EB;
+  background: #F4FAD2;
 }
 
 a {
-  color: #00B7FF;
+	text-decoration: none;
+	color: #00B7FF;
+}
+
+#header a {
+	color: #7f7f7f;
 }
 
 #container {	
 	margin: 0px auto;
 	padding: 0px;
-	width: 1000px;
+	background: url('spotlight.png');
+	background-repeat: repeat-y;
 }
 
 #header {
 	margin: 0px;
 	padding: 0px;
-	height: 50px;
+	height: 40px;
 	background: #D4EE5E;
 	margin: 0px;
 	top: 0;
+	width: 100%;
+	float: left;
+	border-bottom: 20px solid black;
 }
 
 #header h1 {
 	color: #F4FAD2;
 	padding-top :8px;
 	padding-left: 10px;
+	margin: 0px;
 }
 
 #content {
-	
+	clear: none;
+	width: 1000px;
 	padding: 10px;
 	background: #F4FAD2;
 	height: 800px;
+	margin: 0 auto;
 }
 
 #left_content {
+	margin: 0 auto;
+	width: 800px;
+}
+
+#right_border {
+	width: 200px;
+	background: url('spotlight-right.png');
+	background-repeat: repeat-y;
+	border: 2px solid black;
 	float: left;
-	width: 600px;
+	margin-left: 900px;
+	clear: none;
+	
 }
 
 #right_content {
