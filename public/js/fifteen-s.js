@@ -32,7 +32,7 @@ var FifteenS = (function () {
       this.sessionId = auth.sessionId;
       this.token = auth.token;
 
-      TB.setLogLevel(TB.DEBUG); // Set this for helpful debugging messages in console
+      //TB.setLogLevel(TB.DEBUG); // Set this for helpful debugging messages in console
 
       this.session = TB.initSession(this.sessionId);
 

@@ -57,7 +57,7 @@ exports.start = function (server) {
     var socket = streams[currentUid];
     if (!socket) {
       // if a user quit in the last 5 seconds, and none are left, quit.
-      if (!pick()) {
+      if (!prepare()) {
         return
       }
     }
