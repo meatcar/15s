@@ -51,6 +51,8 @@ var FifteenS = (function () {
       this.socket.on('prepare', function (data) {
         if (!this.isPublished()) {
           $('#header .logo').text('You are next!');
+        } else {
+          $('#header .logo').text('Go again!');
         }
       }.bind(this));
 
