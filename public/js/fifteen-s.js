@@ -5,64 +5,128 @@
  *  - each client keeps their own stream lists.
  *
  */
+
+/**
+ *
+ */
 $.domReady(function () {
   $.ajax({
     method: "GET",
     url: "/auth",
     type: "json"
   }).then(function (resp) {
-    main(resp);
-  }, function (err) {
+    // Success
+    window.FifteenS = new FifteenS(resp);
+
+  }).fail(function (err) {
+    // Failure
     console.log('15s: error getting session', err);
   });
 });
 
-function main (auth) {
-  var socket = io.connect('http://localhost:3000'),
-    TB = window.TB;
+var FifteenS = (function () {
+  var FifteenS = function (auth) {
+    this.initialize = function () {
+      var TB = window.TB;
+      this.apiKey = auth.key;
+      this.sessionId = auth.sessionId;
+      this.token = auth.token;
 
-  var apiKey = '22769732',
-    sessionId = auth.sessionId,
-    token = auth.token;
+      TB.setLogLevel(TB.DEBUG); // Set this for helpful debugging messages in console
 
-  TB.setLogLevel(TB.DEBUG); // Set this for helpful debugging messages in console
+      this.session = TB.initSession(this.sessionId);
 
-  var session = TB.initSession(sessionId);
+      this.session.addEventListener('sessionConnected', this.connected.bind(this));
+      this.session.addEventListener('streamCreated', this.showStream.bind(this));
 
-  session.addEventListener('sessionConnected', sessionConnectedHandler);
-  session.addEventListener('streamCreated', streamCreatedHandler);
-  session.connect(apiKey, token);
+      this.session.connect(this.apiKey, this.token);
+    }
 
-  var publisher;
+    this.connected = function (event) {
+      console.log("connected");
 
-  function sessionConnectedHandler(event) {
-    var publishProps = {height:240, width:320};
+      this.socket = io.connect('http://localhost:3000');
 
-    publisher = TB.initPublisher(apiKey, 'preview', publishProps);
-    // Send my stream to the session
-    session.publish(publisher);
+      /* prepare to be famous */
+      this.socket.on('prepare', function (data) {
+        //TODO do flashy shit
+      }.bind(this));
 
-    // Subscribe to streams that were in the session when we connected
-    subscribeToStreams(event.streams);
+      /* be famous */
+      this.socket.on('fameon', function (data) {
+        console.log('fameon');
+        this.publish();
+      }.bind(this));
+
+      /* enough famousness. share the spotlight. */
+      this.socket.on('fameoff', function () {
+        console.log('fameoff');
+        this.unpublish();
+      }.bind(this));
+    }
+
+    /**
+     * Publish this stream
+     */
+    this.publish = function (event) {
+      // skip if given another chance.
+      if (this.isPublished) {
+        return;
+      }
+      var properties = {
+        height: 240,
+        width: 320
+      };
+
+      this.isPublished = true;
+
+      if (this.subscriber) {
+      this.session.unsubscribe(this.subscriber);
+      }
+
+      $("#preview").append($.create('<div id="' + '1' +'">'))
+      this.publisher = TB.initPublisher(this.apiKey, '1' , properties);
+      // Send my stream to the session
+      this.session.publish(this.publisher);
+    };
+
+    /**
+     * unpublish this stream
+     */
+    this.unpublish = function () {
+      if (this.isPublished) {
+        this.session.unpublish(this.publisher);
+        this.isPublished = false;
+      }
+    };
+
+    /**
+     * show a newly published stream
+     */
+    this.showStream = function (event) {
+      var stream = event.streams[0];
+      // make sure a stream is included.
+      if (typeof stream === 'undefined') {
+        return;
+      }
+      // dont show own stream.
+      if (stream.connection.connectionId === this.session.connection.connectionId) {
+        return;
+      }
+
+      // if
+      if (this.isPublished) {
+        this.unpublish()
+      }
+
+      // Subscribe to the stream
+      var id = "stream-" + stream.streamId;
+      $("#preview").append($.create('<div id="' + id +'">'))
+      this.session.subscribe(stream, id);
+      this.subscriber = stream;
+    };
+    this.initialize();
   }
 
-  function streamCreatedHandler(event) {
-    // Subscribe to any new streams that are created
-    subscribeToStreams(event.streams);
-  }
-
-  function subscribeToStreams(new_streams) {
-    console.log(new_streams);
-    streams = new_streams;
-  }
-  session.connect(apiKey, token);
-
-
-  socket.on('fame', function (data) {
-    var streamId = data.stream_id;
-
-    //session.subscribe(stream, "#famebox");
-
-    // TODO: probably scan the entire stream list.
-  });
-}
+  return FifteenS;
+})();
