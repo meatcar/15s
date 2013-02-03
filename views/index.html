@@ -1,7 +1,9 @@
 <div id="container">
 	<div id="header">
 		<h1 style="float: left;">15<span style="color: #FF4242">seconds</span></h1>
-		<h3 style="float:right; padding: 0px 10px;"><a href="#">How it works</a></h3>
+		<h3 style="float:right; padding: 0px 10px;" onmouseover="document.getElementById('right_content').setAttribute('style', 'visibility: visible;');"
+			onmouseout="document.getElementById('right_content').setAttribute('style', 'visibility: hidden;');"
+		><a href="#">How it works</a></h3>
 	</div>
 	<div id="content">
 		<div id="left_content">
@@ -10,7 +12,12 @@
 			<div id="preview"></div>
 			<div id="right_border"></div>
 		</div>
-		
+		<div id="right_content" style="visibility: hidden;"
+		onmouseover="document.getElementById('right_content').setAttribute('style', 'visibility: visible;');"
+			onmouseout="document.getElementById('right_content').setAttribute('style', 'visibility: hidden;');">
+			<p>Start by doing this </p>
+			<p>Then this</p>
+		</div>
 
 		<!--<div id="right_content">
 		</div>-->

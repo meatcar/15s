@@ -70,7 +70,7 @@ var FifteenS = (function () {
      */
     this.publish = function (event) {
       // skip if given another chance.
-      if (this.isPublished) {
+      if (this.isPublished()) {
         return;
       }
       var properties = {
@@ -78,10 +78,9 @@ var FifteenS = (function () {
         width: 320
       };
 
-      this.isPublished = true;
-
       if (this.subscriber) {
-      this.session.unsubscribe(this.subscriber);
+        this.session.unsubscribe(this.subscriber);
+        delete this.subscriber;
       }
 
       $("#preview").append($.create('<div id="' + '1' +'">'))
@@ -90,14 +89,18 @@ var FifteenS = (function () {
       this.session.publish(this.publisher);
     };
 
+    this.isPublished = function () {
+      return !!this.publisher;
+    };
+
     /**
      * unpublish this stream
      */
     this.unpublish = function () {
-      if (this.isPublished) {
+      if (this.isPublished()) {
         this.session.unpublish(this.publisher);
-        this.isPublished = false;
       }
+      delete this.publisher;
     };
 
     /**
@@ -115,15 +118,15 @@ var FifteenS = (function () {
       }
 
       // if
-      if (this.isPublished) {
+      if (this.isPublished()) {
         this.unpublish()
       }
 
       // Subscribe to the stream
       var id = "stream-" + stream.streamId;
       $("#preview").append($.create('<div id="' + id +'">'))
-      this.session.subscribe(stream, id);
-      this.subscriber = stream;
+      this.subscriber = this.session.subscribe(stream, id);
+      // this.subscriber = stream;
     };
     this.initialize();
   }

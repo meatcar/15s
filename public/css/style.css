@@ -69,10 +69,18 @@ a {
 
 #right_content {
 	background: #E1EDB9;
-	float: right;
+	position: absolute;
+	top: 60px;
+	right: 0px;
 	clear: none;
-	width: 300px;
+	width: 250px;
+	float: right;
 	min-height: 300px;
 	display: inline-block;
+	z-index: 10px;
+	border-bottom-right-radius: 20px;
+	border-bottom-left-radius: 20px;
+	padding: 5px;
+
 }
 
