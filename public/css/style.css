@@ -4,15 +4,18 @@ body {
   padding: 0;
   /*background: #F0F2EB;*/
   background: #F4FAD2;
+  background-image: url('/img/gray_jean.png');
+  background-repeat: repeat;
   text-align: center;
+  text-shadow: 1px 2px 0px #fff;
 }
 
 #container {
-    width: 800px;
-    margin-left: auto;
-    margin-right: atuo;
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
   text-align: center;
-    display: inline-block;
+  display: inline-block;
 }
 
 a {
@@ -33,6 +36,7 @@ a {
     font-size: 4em;
     color: #FF4242;
     font-weight: bold;
+    text-shadow: 1px 2px 0px #ccc;
 }
 
 .logo span {

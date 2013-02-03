@@ -49,7 +49,9 @@ var FifteenS = (function () {
 
       /* prepare to be famous */
       this.socket.on('prepare', function (data) {
-        $('#header .logo').text('You are next!');
+        if (!this.isPublished()) {
+          $('#header .logo').text('You are next!');
+        }
       }.bind(this));
 
       /* be famous */
