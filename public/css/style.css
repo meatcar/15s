@@ -5,7 +5,6 @@ body {
   /*background: #F0F2EB;*/
   background: #F4FAD2;
   text-align: center;
-  overflow: hidden;
 }
 
 #container {
@@ -61,4 +60,8 @@ a {
     text-align: center;
     vertical-align: middle;
     background: rgba(255, 255, 255, 0.6);
+}
+
+#footer {
+    font-style: italic;
 }

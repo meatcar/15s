@@ -49,7 +49,7 @@ var FifteenS = (function () {
 
       /* prepare to be famous */
       this.socket.on('prepare', function (data) {
-        document.getElementById("container").className="famous_on";
+        $('#header .logo').text('You are next!');
       }.bind(this));
 
       /* be famous */
@@ -69,13 +69,14 @@ var FifteenS = (function () {
      * Publish this stream
      */
     this.publish = function (event) {
+      $('#header .logo').text('On Air!');
       // skip if given another chance.
       if (this.isPublished()) {
         return;
       }
       var properties = {
-        height: 240,
-        width: 320
+        height: 400,
+        width: 700
       };
 
       if (this.subscriber) {
@@ -97,6 +98,7 @@ var FifteenS = (function () {
      * unpublish this stream
      */
     this.unpublish = function () {
+      $('#header .logo').text('15 Seconds');
       if (this.isPublished()) {
         this.session.unpublish(this.publisher);
       }
@@ -123,9 +125,13 @@ var FifteenS = (function () {
       }
 
       // Subscribe to the stream
+      var properties = {
+        height: 400,
+        width: 700
+      };
       var id = "stream-" + stream.streamId;
       $("#preview").append($.create('<div id="' + id +'">'))
-      this.subscriber = this.session.subscribe(stream, id);
+      this.subscriber = this.session.subscribe(stream, id, properties);
       // this.subscriber = stream;
     };
     this.initialize();
