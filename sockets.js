@@ -34,15 +34,14 @@ exports.start = function (server) {
 
     socket.on('disconnect', function () {
       // Clean up user and socket storage.
-      delete streams[uid];
+      streams[uid] = undefined;
       var idx = users.indexOf(uid);
       if (idx !== -1) {
         // uid is in array.
         users.splice(idx, 1);
       }
       // update on num of users
-      socket.broadcast.emit('number', {n: users.length});
-      socket.emit('number', {n: users.length});
+      socket.broadcast.emit('number', users.length);
     });
   });
 
