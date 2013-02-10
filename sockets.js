@@ -10,7 +10,7 @@ exports.start = function (server) {
     streams = {}, /* maps: user => socket */
     next_uid; // current famous uid
 
-  // heroku config
+  // heroku config. Dump this to speed up disconnects.
   io.configure(function () {
     io.set("transports", ["xhr-polling"]);
     io.set("polling duration", 10);

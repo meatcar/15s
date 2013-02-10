@@ -1,6 +1,6 @@
 {
-  "name": "application-name",
-  "version": "0.0.1",
+  "name": "fifteenseconds",
+  "version": "0.0.9",
   "private": true,
   "engines": {
     "node": "0.8.x",
@@ -10,7 +10,7 @@
     "start": "node app"
   },
   "dependencies": {
-    "express": "3.0.0rc3",
+    "express": ">=3.0.0rc3",
     "express3-handlebars": ">=0",
     "handlebars": ">=0",
     "opentok": ">=0.3.1",
