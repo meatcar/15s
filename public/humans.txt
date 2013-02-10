@@ -1,0 +1,22 @@
+/* TEAM */
+Developer: Denys Pavlov
+Site: http://denys.me/
+Twitter: @meatcar
+Location: Toronto, Canada
+
+Developer: Natasha Dalal
+Twitter: @natashadalal
+Location: Toronto, Canada
+
+Developer: Tony Cheng
+Location: Toronto, Canada
+
+
+/* THANKS */
+MHacks: http://mhacks.org/
+
+
+/* SITE */
+Standards: HTML5, CSS3, WebRTC
+Components: node.js, socket.io, OpenTok, express.js, ender.js
+Software: vim, linux
