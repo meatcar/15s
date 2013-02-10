@@ -1,5 +1,6 @@
 /**
- * Socket.io functionality
+ * The brain. Saves new user connections, picks random users to broadcast every
+ * 15 seconds.
  */
 var socketio = require('socket.io');
 
@@ -7,7 +8,7 @@ exports.start = function (server) {
   var io = socketio.listen(server),
     users = [],
     streams = {}, /* maps: user => socket */
-    currentUid; // current famous uid
+    next_uid; // current famous uid
 
   // heroku config
   io.configure(function () {
@@ -16,25 +17,27 @@ exports.start = function (server) {
   });
 
   io.sockets.on('connection', function (socket) {
+    // remember user and socket
     var uid = createUUID();
     users.push(uid);
     streams[uid] = socket;
 
+    // tell first user to publish video.
     if (users.length === 1) {
-      currentUid = uid;
+      next_uid = uid;
       pick();
     }
 
-    // update on num of users
-    socket.broadcast.emit('number', {n: users.length});
-    socket.emit('number', {n: users.length});
+    // update on number of users
+    socket.broadcast.emit('number', users.length);
+    socket.emit('number', users.length);
 
     socket.on('disconnect', function () {
-      console.log('disconnecting');
-      // Clean up uid and socket storage.
+      // Clean up user and socket storage.
       delete streams[uid];
       var idx = users.indexOf(uid);
-      if (idx !== -1) { // uid in array.
+      if (idx !== -1) {
+        // uid is in array.
         users.splice(idx, 1);
       }
       // update on num of users
@@ -43,13 +46,14 @@ exports.start = function (server) {
     });
   });
 
-  // Wait 15s before famousing a stream
+  // prepare a stream to be published every 15 seconds.
+  // Pick it 5 seconds later.
   setInterval(prepare, 15000);
   setTimeout(function () {
     setInterval(pick, 15000);
   }, 5000);
 
-  // Pick a stream at random, and tell it to be famous.
+  // Pick a stream at random, and warn it.
   function prepare() {
     // skip if only one user or less.
     if (users.length <= 0) {
@@ -59,27 +63,28 @@ exports.start = function (server) {
       id = users[index],
       socket = streams[id];
 
-    currentUid = id;
+    next_uid = id;
 
-    socket.emit('prepare', {
-      uid: id
-    });
+    socket.emit('prepare');
   }
 
+  /*
+   * Tells the user to broadcast.
+   */
   function pick(){
-    var socket = streams[currentUid];
+    var socket = streams[next_uid];
     if (!socket) {
-      // if a user quit in the last 5 seconds, and none are left, quit.
       if (!prepare()) {
+        // a user quit in the last 5 seconds, and none are left. stop picking.
         return
       }
     }
-    socket.emit('fameon', {
-      uid: currentUid
-    });
+    socket.emit('fameon');
   }
 
-  // Returns a uniformly random number between min and max
+  /*
+   * Returns a uniformly random number between min and max
+   */
   function getRandomArbitary(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
